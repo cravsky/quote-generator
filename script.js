@@ -7,12 +7,8 @@ const loader = document.getElementById('loader');
 
 let apiQuotes = [];
 
-// Get Quotes From API
-// Alternative source of quotes
-// https://zenquotes.io/api/random
-
 async function getQuotes() {
-    loading();
+    showSpinner();
     const apiUrl = 'https://jacintodesign.github.io/quotes-api/data/quotes.json';
     try {
         const response = await fetch(apiUrl);
@@ -24,35 +20,26 @@ async function getQuotes() {
 }
 
 function showQuote() {
-    loading();
+    showSpinner();
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    authorText.textContent = quote.author ?? 'Unknown'; // .textContent sets the text content of an element
-    // Check quote length to determine styling
-    if (quote.text.length > 120) {
-        quoteText.classList.add('long-quote'); // .classlist.add() adds a class to an element
-    } else {
-        quoteText.classList.remove('long-quote'); // .classlist.remove() removes a class from an element
-    }
+    authorText.textContent = quote.author ?? 'Unknown';
     quoteText.textContent = quote.text;
-    complete()
+    hideSpinner()
 }
 
-// Show Loading
-function loading() {
+function showSpinner() {
     loader.hidden = false;
     quoteContainer.hidden = true;
 }
 
-// Hide Loading
-function complete() {
+function hideSpinner() {
     loader.hidden = true;
     quoteContainer.hidden = false;
 }
 
-// Tweet Quote
 function tweetQuote() {
     const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
-    window.open(twitterUrl, '_blank'); // Opens a new window
+    window.open(twitterUrl, '_blank');
 }
 
 // Event Listeners
